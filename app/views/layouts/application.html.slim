@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    meta charset="utf-8"
+    title Traxlist
+    == stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    == javascript_include_tag 'application', 'data-turbolinks-track' => true
+    == csrf_meta_tags
+  body
+    nav.navbar.navbar-default.navbar-static-top.navbar-inverse
+      .container-fluid
+        .navbar-header
+          == link_to "Traxlist", "/", class: "navbar-brand"
+        ul.nav.navbar-nav
+          li
+            == link_to "Discover Playlists", "/playlists"
+        ul.nav.navbar-nav.navbar-right
+          - if current_user
+            li
+              == link_to "Upload", "/playlists/new"
+            li
+              == link_to "Sign out", "/signout"
+          - else
+            li
+              == link_to "Sign in with Twitter", "/auth/twitter"
+
+    .container
+      == yield
+      .row

@@ -1,2 +1,8 @@
-h1 Welcome#index
-p Find me in app/views/welcome/index.html.slim
+.row style="text-align: center"
+  .jumbotron
+    h1 Welcome to Traxlist
+    p Share your playlist with your listeners
+    p Sign in to upload yout playlist
+    p Traktor (.nml) and iTunes (.xml) are available
+    p
+      == link_to "Sign in with Twitter", "/auth/twitter", class: "btn btn-lg btn-info"
