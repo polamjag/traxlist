@@ -1,0 +1,11 @@
+{
+  "name": "Traxlist",
+  "repository": "https://github.com/polamjag/traxlist",
+  "env": {
+    "OMNIAUTH_TWITTER_CK": "secret",
+    "OMNIAUTH_TWITTER_CS": "secret"
+  },
+  "addons": [
+    "mongolab"
+  ]
+}
