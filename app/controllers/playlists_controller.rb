@@ -1,3 +1,5 @@
+require 'csv'
+
 class PlaylistsController < ApplicationController
   before_action :set_playlist, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate, only: [:new, :edit, :update, :destroy]
@@ -12,6 +14,7 @@ class PlaylistsController < ApplicationController
   # GET /playlists/1.json
   def show
     @playlist = Playlist.find(params[:id])
+    #binding.pry
   end
 
   # GET /playlists/new
@@ -28,9 +31,36 @@ class PlaylistsController < ApplicationController
   def create
     file = playlist_params[:upload_file]
     #flash[:error] = "playlist file may be broken" if file.nil?
-    pl = Traktor::NML.parse file.read
-    tracks = pl.first[:tracks]
-    @playlist = Playlist.new( tracks: tracks, name: playlist_params[:name] || pl.first[:name])
+    file_content = file.read
+    begin
+      pl =
+      if file_content =~ /NML/
+        # traktor nml
+        Traktor::NML.parse file_content
+      else
+        # iTunes Playlist
+        File.open file.tempfile.path, 'rb', encoding: Encoding::UTF_16LE do |f|
+          csv = CSV.new f, encoding: Encoding::UTF_16LE, col_sep: "\t", row_sep: :auto
+          csv_ar = csv.map do |tr|
+            {
+             title: tr[0],
+             artist: tr[1],
+             album: tr[3],
+             genre: tr[5],
+             label: nil,
+             playtime: tr[7],
+             bpm: nil
+            }
+          end
+          csv_ar.delete_at 0
+          csv_ar
+        end
+      end
+    rescue => e
+      binding.pry
+      p e
+    end
+    @playlist = Playlist.new( tracks: pl, name: playlist_params[:name], description: playlist_params[:description] )
     @playlist.user = current_user
     respond_to do |format|
       if @playlist.save
@@ -46,13 +76,15 @@ class PlaylistsController < ApplicationController
   # PATCH/PUT /playlists/1
   # PATCH/PUT /playlists/1.json
   def update
-    respond_to do |format|
-      if @playlist.update(playlist_params)
-        format.html { redirect_to @playlist, notice: 'Playlist was successfully updated.' }
-        format.json { render :show, status: :ok, location: @playlist }
-      else
-        format.html { render :edit }
-        format.json { render json: @playlist.errors, status: :unprocessable_entity }
+    if @playlist.user == current_user
+      respond_to do |format|
+        if @playlist.update(playlist_params)
+          format.html { redirect_to @playlist, notice: 'Playlist was successfully updated.' }
+          format.json { render :show, status: :ok, location: @playlist }
+        else
+          format.html { render :edit }
+          format.json { render json: @playlist.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -60,10 +92,12 @@ class PlaylistsController < ApplicationController
   # DELETE /playlists/1
   # DELETE /playlists/1.json
   def destroy
-    @playlist.destroy
-    respond_to do |format|
-      format.html { redirect_to playlists_url, notice: 'Playlist was successfully destroyed.' }
-      format.json { head :no_content }
+    if @playlist.user == current_user
+      @playlist.destroy
+      respond_to do |format|
+        format.html { redirect_to playlists_url, notice: 'Playlist was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -75,6 +109,6 @@ class PlaylistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def playlist_params
-      params.require(:playlist).permit(:name, :tag, :tracks, :upload_file)
+      params.require(:playlist).permit(:name, :description, :tracks, :upload_file)
     end
 end

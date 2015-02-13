@@ -1,3 +1,5 @@
+- content_for :title, "Welcome"
+
 div
   - if ! current_user
     .jumbotron style="text-align: center"
@@ -7,4 +9,9 @@ div
         == link_to "Sign in with Twitter", "/auth/twitter", class: "btn btn-lg btn-info"
       small We use your account information only for authentication and acquisition of your profiles.
   - else
-    h2 Recent uploads
+    .row
+      == link_to "Upload your playlist and share", 'playlists/new', class: "btn btn-info"
+      == link_to "View your profile", current_user, class: "btn btn-default"
+    .row
+      h2 Recent uploads
+      = render :template => "playlists/list"

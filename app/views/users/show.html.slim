@@ -1,13 +1,33 @@
 - content_for :title, @user.name
 
-p#notice = notice
+- unless notice.nil?
+  .alert.alert-info = notice
 
-h2 = @user.name
+.row
+  - if @user == current_user
+    p
+      == link_to "Edit profile", {action: :edit}, class: "btn btn-default"
 
-- if @user.playlists.length > 0
-  h3 Recent playlists
-  ul
-    - @user.playlists.each do |l|
-      li = link_to l.name, l
-- else
-  p This user has no playlists yet
+  .media
+    - unless @user.icon.nil?
+      .media-left.media-middle.pull-left
+        img.media-object.img-circle src="#{@user.icon}" alt="#{@user.name}'s icon"
+    .media-body
+      h2.media-heading = @user.name
+      p = @user.profile
+
+.row
+  - if @user.playlists.length > 0
+    h3 Recent playlists
+    table.table.table-striped
+      thead
+        tr
+          th Name
+          th Uploaded at
+      tbody
+        - @user.playlists.each do |l|
+          tr
+            td = link_to l.name, l
+            td = l.created_at
+  - else
+    p This user has no playlists yet.

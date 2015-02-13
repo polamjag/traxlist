@@ -4,11 +4,15 @@
   .alert.alert-info = notice
 
 .row
-
-.row
   .col-xs-12.col-sm-6.col-md-8
-    h3 #{@playlist.name} by #{link_to @playlist.user.name, "/users/" + @playlist.user.id}
-    p Uploaded at #{@playlist.created_at}
+    .media
+      - unless @playlist.user.icon.nil?
+        .media-left.media-middle.pull-left
+          img.media-object.img-circle src="#{@playlist.user.icon}" alt="#{@playlist.user.name}'s icon"
+      .media-body
+        h3.media-heading #{@playlist.name} by #{link_to @playlist.user.name, "/users/" + @playlist.user.id}
+        p = @playlist.description
+        p Uploaded at #{@playlist.created_at}
     - if @playlist.user == current_user
       p
         = link_to 'Edit', edit_playlist_path(@playlist), class: "btn btn-default", "role" => "button"

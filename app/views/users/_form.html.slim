@@ -1,3 +1,5 @@
+- content_for :title, "Edit profile"
+
 = form_for @user do |f|
   - if @user.errors.any?
     #error_explanation
@@ -7,12 +9,10 @@
           li = message
 
   .field
-    = f.label :provider
-    = f.text_field :provider
-  .field
-    = f.label :uid
-    = f.text_field :uid
-  .field
     = f.label :name
-    = f.text_field :name
-  .actions = f.submit
+    = f.text_field :name, class: "form-control"
+  .field
+    = f.label :profile
+    = f.text_field :profile, class: "form-control"
+
+  .actions = f.submit class: "btn btn-primary"

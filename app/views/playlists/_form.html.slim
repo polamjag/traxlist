@@ -1,4 +1,5 @@
-- content_for :title, "Upload Playlist"
+- content_for :title, "Upload playlist"
+
 = form_for @playlist do |f|
   - if @playlist.errors.any?
     #error_explanation
@@ -10,6 +11,9 @@
   .field
     = f.label :name
     = f.text_field :name, class: 'form-control', placeholder: 'My awesome playlist'
+  .field
+    = f.label :description
+    = f.text_field :description, class: 'form-control', placeholder: 'Mix at CLUB RAILS, performed on Feb. 15, 2014 '
   .field
     = f.label :playlist_file
     = f.file_field :upload_file

@@ -2,11 +2,12 @@ Rails.application.routes.draw do
   get 'welcome/index'
   root 'welcome#index'
   get 'login', to: 'welcome#login'
+  get 'howto_export', to: 'welcome#howto_export'
 
   match "auth/twitter/callback" => "sessions#create", via: [:get, :post]
   match "signout" => "sessions#destroy", :as => :signout, via: [:get, :post]
 
-  resources :users, only: [:show]
+  resources :users, only: [:show, :edit, :update]
   resources :playlists
 
   # The priority is based upon order of creation: first created -> highest priority.

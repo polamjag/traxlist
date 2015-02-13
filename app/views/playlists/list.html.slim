@@ -1,7 +1,3 @@
-- content_for :title, "Index of playlists"
-
-h1 Discover Playlists
-
 table.table.table-striped
   thead
     tr
@@ -10,7 +6,7 @@ table.table.table-striped
       th Date
 
   tbody
-    - @playlists.each do |playlist|
+    - Playlist.all.desc('_id').limit(30).each do |playlist|
       tr
         td = link_to playlist.name, playlist
         td = link_to playlist.user.name, playlist.user

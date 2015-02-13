@@ -4,4 +4,7 @@ class WelcomeController < ApplicationController
 
   def login
   end
+
+  def howto_export
+  end
 end
