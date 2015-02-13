@@ -1,10 +1,10 @@
 div
   - if ! current_user
     .jumbotron style="text-align: center"
-      h1 Share your playlist with your listeners
-      p Sign in to upload yout playlist
+      h1 Share playlists with listeners
       p Traktor (.nml) and iTunes (.xml) are available
       p
         == link_to "Sign in with Twitter", "/auth/twitter", class: "btn btn-lg btn-info"
+      small We use your account information only for authentication and acquisition of your profiles.
   - else
     h2 Recent uploads

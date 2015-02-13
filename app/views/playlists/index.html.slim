@@ -1,25 +1,13 @@
-h1 Listing playlists
+h1 Discover Playlists
 
-table
+table.table.table-striped
   thead
     tr
       th Name
-      th Tag
-      th Tracks
-      th
-      th
-      th
+      th Uploaded by
 
   tbody
     - @playlists.each do |playlist|
       tr
-        td = playlist.name
-        td = playlist.tag
-        td = playlist.tracks
-        td = link_to 'Show', playlist
-        td = link_to 'Edit', edit_playlist_path(playlist)
-        td = link_to 'Destroy', playlist, data: {:confirm => 'Are you sure?'}, :method => :delete
-
-br
-
-= link_to 'New Playlist', new_playlist_path
+        td = link_to playlist.name, playlist
+        td = link_to playlist.user.name, playlist.user

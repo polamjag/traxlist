@@ -1,15 +1,13 @@
+- content_for :title, @user.name
+
 p#notice = notice
 
-p
-  strong Provider:
-  = @user.provider
-p
-  strong Uid:
-  = @user.uid
-p
-  strong Name:
-  = @user.name
+h2 = @user.name
 
-= link_to 'Edit', edit_user_path(@user)
-'|
-= link_to 'Back', users_path
+- if @user.playlists.length > 0
+  h3 Recent playlists
+  ul
+    - @user.playlists.each do |l|
+      li = link_to l.name, l
+- else
+  p This user has no playlists yet

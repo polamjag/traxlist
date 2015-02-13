@@ -30,7 +30,7 @@ class PlaylistsController < ApplicationController
     #flash[:error] = "playlist file may be broken" if file.nil?
     pl = Traktor::NML.parse file.read
     tracks = pl.first[:tracks]
-    @playlist = Playlist.new( tracks: tracks, name: playlist_params[:name] || pl.first[:name], tag: playlist_params[:tags] )
+    @playlist = Playlist.new( tracks: tracks, name: playlist_params[:name] || pl.first[:name])
     @playlist.user = current_user
     respond_to do |format|
       if @playlist.save

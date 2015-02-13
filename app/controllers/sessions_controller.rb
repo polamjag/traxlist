@@ -10,8 +10,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session = []
-    p session
+    session[:user_id] = nil
+    session[:oauth_token] = nil
+    session[:oauth_token_secret] = nil
+    session[:user_info] = nil
     redirect_to :root
   end
 end

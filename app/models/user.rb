@@ -4,6 +4,8 @@ class User
   field :uid, type: String
   field :name, type: String
 
+  field :icon, type: String
+
   field :profile, type: String
 
   has_many :playlists
