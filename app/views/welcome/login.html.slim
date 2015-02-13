@@ -1,0 +1,4 @@
+- if ! current_user
+  == link_to "Sign in with Twitter", "/auth/twitter", class: "btn btn-lg btn-info"
+- else
+  == redirect_to :root

@@ -1,15 +1,34 @@
 p#notice = notice
 
-p
-  strong Name:
-  = @playlist.name
-p
-  strong Tag:
-  = @playlist.tag
-p
-  strong Tracks:
-  = @playlist.tracks
+.row
+  h3 #{@playlist.name} by #{link_to @playlist.user.name, "/users/" + @playlist.user.id}
 
-= link_to 'Edit', edit_playlist_path(@playlist)
-'|
-= link_to 'Back', playlists_path
+.row
+  p
+    strong Tags:
+    = @playlist.tag
+
+.row
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Artist
+        th Album
+        th Genre
+        th Label
+        th BPM
+    tbody
+      - @playlist.tracks.each do |track|
+        tr
+          td = track["title"]
+          td = track["artist"]
+          td = track["album"]
+          td = track["genre"]
+          td = track["label"]
+          td = track["bpm"]
+
+
+
+- if @playlist.user == current_user
+  = link_to 'Delete', edit_playlist_path(@playlist)

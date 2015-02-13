@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  def authenticate
+    redirect_to controller: 'welcome', action: :login unless (!session[:user_id].nil?) && User.find(session[:user_id])
+  end
+
   private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]

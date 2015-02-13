@@ -1,5 +1,6 @@
 class PlaylistsController < ApplicationController
   before_action :set_playlist, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate, only: [:new, :edit, :update, :destroy]
 
   # GET /playlists
   # GET /playlists.json
@@ -10,12 +11,12 @@ class PlaylistsController < ApplicationController
   # GET /playlists/1
   # GET /playlists/1.json
   def show
+    @playlist = Playlist.find(params[:id])
   end
 
   # GET /playlists/new
   def new
     @playlist = Playlist.new
-    @playlist.user = current_user
   end
 
   # GET /playlists/1/edit
@@ -25,8 +26,12 @@ class PlaylistsController < ApplicationController
   # POST /playlists
   # POST /playlists.json
   def create
-    @playlist = Playlist.new(playlist_params)
-
+    file = playlist_params[:upload_file]
+    #flash[:error] = "playlist file may be broken" if file.nil?
+    pl = Traktor::NML.parse file.read
+    tracks = pl.first[:tracks]
+    @playlist = Playlist.new( tracks: tracks, name: playlist_params[:name] || pl.first[:name], tag: playlist_params[:tags] )
+    @playlist.user = current_user
     respond_to do |format|
       if @playlist.save
         format.html { redirect_to @playlist, notice: 'Playlist was successfully created.' }
@@ -70,6 +75,6 @@ class PlaylistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def playlist_params
-      params.require(:playlist).permit(:name, :tag, :tracks)
+      params.require(:playlist).permit(:name, :tag, :tracks, :upload_file)
     end
 end

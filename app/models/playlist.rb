@@ -1,8 +1,10 @@
 class Playlist
   include Mongoid::Document
+  include Mongoid::Timestamps
   field :name, type: String
   field :tag, type: Array
   field :tracks, type: Array
 
-  embedded_in :user
+  belongs_to :user
+  validates_presence_of :name
 end

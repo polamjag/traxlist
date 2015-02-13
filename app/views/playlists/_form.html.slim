@@ -8,11 +8,11 @@
 
   .field
     = f.label :name
-    = f.text_field :name
+    = f.text_field :name, class: 'form-control', placeholder: 'My awesome playlist'
   .field
-    = f.label :tag
-    = f.text_field :tag
+    = f.label "tag (automatically separated by comma ', ')"
+    = f.text_field :tag, class: 'form-control', placeholder: 'Electro house, EDM, Progressive house'
   .field
-    = f.label :tracks
-    = f.text_field :tracks
-  .actions = f.submit
+    = f.label :playlist_file
+    = f.file_field :upload_file
+  .actions = f.submit class: 'btn btn-primary'

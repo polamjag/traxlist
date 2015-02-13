@@ -8,4 +8,10 @@ class SessionsController < ApplicationController
     session[:user_info] = auth.extra
     redirect_to root_url, :notice => "Signed in!"
   end
+
+  def destroy
+    session = []
+    p session
+    redirect_to :root
+  end
 end

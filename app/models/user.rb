@@ -6,7 +6,7 @@ class User
 
   field :profile, type: String
 
-  embeds_many :playlists
+  has_many :playlists
 
   def self.create_with_omniauth(auth)
     create! do |user|
