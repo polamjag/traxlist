@@ -206,7 +206,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    traktor-nml (0.0.1)
+    traktor-nml (0.1.0)
       oga
     turbolinks (2.5.3)
       coffee-rails
