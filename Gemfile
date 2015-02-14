@@ -25,7 +25,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass', '~> 3.1.1'
 
-gem 'dotenv-rails', :require => 'dotenv/rails-now', :groups => [:development, :test], :github => "bkeepers/dotenv"
+#gem 'dotenv-rails', :require => 'dotenv/rails-now', :groups => [:development, :test], :github => "bkeepers/dotenv"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
