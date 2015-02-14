@@ -1,12 +1,11 @@
-# Set the working application directory
-working_directory "/home/traxlist/traxlist"
-
 # Unicorn PID file location
-pid "/home/traxlist/traxlist/pids/unicorn.pid"
+pid "/var/www/traxlist/pids/unicorn.pid"
+
+preload_app true
 
 # Path to logs
-stderr_path "/home/traxlist/traxlist/log/unicorn.log"
-stdout_path "/home/traxlist/traxlist/log/unicorn.log"
+stderr_path "/var/www/traxlist/current/log/unicorn.log"
+stdout_path "/var/www/traxlist/current/log/unicorn.log"
 
 # Unicorn socket
 listen "/tmp/unicorn.traxlist.sock"
