@@ -2,6 +2,8 @@ h1 Editing playlist
 
 == render 'form'
 
+hr
+
 p
   = link_to 'Cancel and back to playlist', @playlist, class: "btn btn-default", "role" => "button"
   = link_to 'Delete playlist', @playlist, data: {:confirm => 'Are you sure?'}, :method => :delete, class: "btn btn-danger"
