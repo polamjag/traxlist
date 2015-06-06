@@ -20,12 +20,12 @@ html
         ul.nav.navbar-nav.navbar-right
           - if current_user
             li
-              == link_to "Upload", "/playlists/new"
+              = link_to "Upload", "/playlists/new"
             li
-              == link_to "Sign out #{current_user[:name]}", "/signout"
+              = link_to "Sign out #{current_user[:name]}", "/signout"
           - else
             li
-              == link_to "Sign in with Twitter", "/auth/twitter"
+              = link_to "Sign in with Twitter", "/auth/twitter"
 
     .container
       == yield

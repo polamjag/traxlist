@@ -29,36 +29,41 @@ class PlaylistsController < ApplicationController
   # POST /playlists
   # POST /playlists.json
   def create
-    file = playlist_params[:upload_file]
-    #flash[:error] = "playlist file may be broken" if file.nil?
-    file_content = file.read
     begin
+      file = playlist_params[:upload_file]
+      file_content = file.read
       pl =
-      if file_content =~ /NML/
-        # traktor nml
-        Traktor::NML.parse file_content
-      else
-        # iTunes Playlist
-        File.open file.tempfile.path, 'rb', encoding: Encoding::UTF_16LE do |f|
-          csv = CSV.new f, encoding: Encoding::UTF_16LE, col_sep: "\t", row_sep: :auto
-          csv_ar = csv.map do |tr|
+        if file_content =~ /NML/
+          # traktor nml
+          Traktor::NML.parse(file_content).map do |t|
             {
-             title: tr[0],
-             artist: tr[1],
-             album: tr[3],
-             genre: tr[5],
-             label: nil,
-             playtime: tr[7],
-             bpm: nil
+              title: t[:title],
+              artist: t[:artist],
+              genre: t[:genre],
+              label: t[:label],
+              playtime: t[:playtime],
+              bpm: t[:bpm]
             }
           end
-          csv_ar.delete_at 0
-          csv_ar
+        else
+          # iTunes Playlist
+          File.open file.tempfile.path, 'rb', encoding: Encoding::UTF_16LE do |f|
+            csv = CSV.new f, encoding: Encoding::UTF_16LE, col_sep: "\t", row_sep: :auto
+            csv_ar = csv.map do |tr|
+              {
+                title: tr[0],
+                artist: tr[1],
+                genre: tr[5],
+                label: nil,
+                playtime: tr[7],
+                bpm: nil
+              }
+            end
+            csv_ar.delete_at 0
+            csv_ar
+          end
         end
-      end
     rescue => e
-      binding.pry
-      p e
     end
     @playlist = Playlist.new( tracks: pl, name: playlist_params[:name], description: playlist_params[:description] )
     @playlist.user = current_user

@@ -6,12 +6,16 @@ div
       h1 Share playlists with listeners
       p Sign in to upload playlists of Traktor (.nml) and iTunes (.txt)
       p
-        == link_to "Sign in with Twitter", "/auth/twitter", class: "btn btn-lg btn-info"
+        = link_to "Sign in with Twitter", "/auth/twitter", class: "btn btn-lg btn-info"
       small We use your account information only for authentication and acquisition of your profiles.
   - else
-    .row
-      == link_to "Upload your playlist and share", 'playlists/new', class: "btn btn-info"
-      == link_to "View your profile", current_user, class: "btn btn-default"
+    .row.text-center
+      = link_to 'playlists/new', class: "btn btn-primary btn-lg" do
+        span.glyphicon.glyphicon-plus-sign
+        | Upload and share your playlist
+      = link_to current_user, class: "btn btn-default" do
+        span.glyphicon.glyphicon-user
+        | View your profile
   .row
     h2 Recent uploads
     = render :template => "playlists/list"

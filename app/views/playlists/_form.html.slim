@@ -1,20 +1,21 @@
 - content_for :title, "Upload playlist"
 
 = form_for @playlist do |f|
+
   - if @playlist.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@playlist.errors.count, "error")} prohibited this playlist from being saved:"
+    .alert.alert-danger
+      h4 = "#{pluralize(@playlist.errors.count, "error")} prohibited this playlist from being saved:"
       ul
         - @playlist.errors.full_messages.each do |message|
           li = message
 
-  .field
+  .field.form-group
     = f.label :name
     = f.text_field :name, class: 'form-control', placeholder: 'My awesome playlist'
-  .field
+  .field.form-group
     = f.label :description
     = f.text_field :description, class: 'form-control', placeholder: 'Mix at CLUB RAILS, performed on Feb. 15, 2014 '
-  .field
+  .field.form-group
     = f.label :playlist_file
     = f.file_field :upload_file
   .actions = f.submit class: 'btn btn-primary'

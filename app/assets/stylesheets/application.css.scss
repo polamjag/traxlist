@@ -1,0 +1,41 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+@import "bootstrap";
+
+
+/* Sticky footer:
+ * http://getbootstrap.com/examples/sticky-footer-navbar/
+ */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+  font-size: .9em;
+}
+
+.btn {
+  .glyphicon {
+    margin-right: .3em;
+  }
+
+}
+
+.only-glyphicon {
+  .glyphicon {
+    margin-right: 0;
+  }
+}

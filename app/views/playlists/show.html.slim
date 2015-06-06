@@ -4,54 +4,57 @@
   .alert.alert-info = notice
 
 .row
-  .col-xs-12.col-sm-6.col-md-8
+  .col-sm-10
     .media
       - unless @playlist.user.icon.nil?
         .media-left.media-middle.pull-left
-          img.media-object.img-circle src="#{@playlist.user.icon}" alt="#{@playlist.user.name}'s icon"
+          = link_to image_tag(@playlist.user.icon, alt: "#{@playlist.user.name}'s icon", class: "media-object img-circle"), @playlist.user
       .media-body
-        h3.media-heading #{@playlist.name} by #{link_to @playlist.user.name, "/users/" + @playlist.user.id}
+        h3.media-heading
+          | #{@playlist.name}
+          | &nbsp;
+          small by #{link_to @playlist.user.name, "/users/" + @playlist.user.id}
         p = @playlist.description
         p Uploaded at #{@playlist.created_at}
-    - if @playlist.user == current_user
-      p
-        = link_to 'Edit', edit_playlist_path(@playlist), class: "btn btn-default", "role" => "button"
-
-  .col-xs-6.col-md-4
-    h4 Share
-    p
-      / Twitter
-      a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-count="none" data-dnt="true"
-        Tweet
-      javascript:
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-      / Tumblr
-      a href="http://www.tumblr.com/share/link?url=#{request.original_url}" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('https://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"
-        Share on Tumblr
-      / Google+
-      div class="g-plus" data-action="share" data-annotation="bubble" data-height="24"
-      script src="https://apis.google.com/js/platform.js" async defer
-        {lang: 'ja'}
-
+  - if @playlist.user == current_user
+    .col-sm-2
+      .pull-right
+        = link_to edit_playlist_path(@playlist), class: "btn btn-default", "role" => "button" do
+          span.glyphicon.glyphicon-pencil
+          | Edit
 
 .row
   table.table.table-striped
     thead
       tr
+        th
         th #
         th Title
         th Artist
-        th Album
         th Genre
-        th Label
         th BPM
     tbody
       - @playlist.tracks.each_with_index do |track, index|
         tr
+          td = link_to google_search_url("#{track['title']}+#{track['artist']}"), {target: "_blank", class: "btn btn-xs btn-default only-glyphicon", title: "Search for this track"} do
+            span.glyphicon.glyphicon-search
           td = index + 1
           td = track["title"]
           td = track["artist"]
-          td = track["album"]
           td = track["genre"]
-          td = track["label"]
           td = track["bpm"]
+
+.row
+  h4 Share
+  / Twitter
+  a href="https://twitter.com/share" class="twitter-share-button" data-size="large" data-count="none" data-dnt="true"
+    Tweet
+  javascript:
+    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+  / Tumblr
+  a href="http://www.tumblr.com/share/link?url=#{request.original_url}" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('https://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"
+    Share on Tumblr
+  / Google+
+  div class="g-plus" data-action="share" data-annotation="bubble" data-height="24"
+  script src="https://apis.google.com/js/platform.js" async defer
+    {lang: 'ja'}
